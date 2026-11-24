@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E5A47">
+<title>Demo Sistem Usaha – Bang Khairil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F2; --card:#FFFFFF; --ink:#17201D; --muted:#5B6661; --line:#D9DFDB;
+  --green:#0E5A47; --green-soft:#E1EEE9;
+  --kopi:#8A4B22; --wisma:#2F6690; --umrah:#A57A12; --umrah-text:#7D5C0A;
+  --bad:#B3261E; --good:#1E7A4C;
+  --r-lg:20px; --r-sm:10px;
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  color:var(--ink); background:var(--paper);
+}
+*{box-sizing:border-box}
+body{margin:0;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums}
+h1,h2,h3{margin:0;line-height:1.2}
+h2{font-size:1.15rem;font-weight:700}
+h3{font-size:1rem;font-weight:700}
+p{margin:0}
+
+/* layout */
+.app{display:grid;min-height:100dvh;grid-template-rows:auto 1fr auto}
+.top{background:var(--green);color:#fff;padding:14px 18px 16px}
+.top-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.top .hello{font-size:.9rem;opacity:.85}
+.top .who{font-size:1.2rem;font-weight:800}
+.demo-badge{font-size:.75rem;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:99px;white-space:nowrap}
+.period{display:flex;gap:6px;margin-top:14px;background:rgba(0,0,0,.18);padding:4px;border-radius:12px}
+.period button{flex:1;border:0;background:transparent;color:#fff;padding:7px 4px;border-radius:9px;font-weight:600;font-size:.85rem;cursor:pointer}
+.period button[aria-pressed=true]{background:#fff;color:var(--green)}
+main{padding:16px 16px 96px;max-width:980px;width:100%;margin:0 auto}
+section.tab{display:none}
+section.tab.on{display:block}
+.stack>*+*{margin-top:14px}
+
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav.tabs button{border:0;background:none;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.72rem;font-weight:600;color:var(--muted);cursor:pointer}
+nav.tabs svg{width:22px;height:22px}
+nav.tabs button[aria-current=page]{color:var(--green)}
+nav.tabs button[aria-current=page] .ic{background:var(--green-soft)}
+nav.tabs .ic{display:grid;place-items:center;width:46px;height:28px;border-radius:99px}
+
+.card{background:var(--card);border-radius:var(--r-lg);padding:16px;border:1px solid var(--line)}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+
+/* hero */
+.hero .label{color:var(--muted);font-size:.9rem}
+.hero .big{font-size:clamp(2.1rem,9vw,3rem);font-weight:800;letter-spacing:-.02em;margin:2px 0 4px}
+.delta{font-size:.85rem;font-weight:600}
+.delta.up{color:var(--good)} .delta.down{color:var(--bad)}
+.split{display:flex;height:30px;border-radius:8px;overflow:hidden;margin:18px 0 10px;gap:3px}
+.split span{display:block;height:100%;transition:flex-grow .5s ease}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.legend div{font-size:.8rem;color:var(--muted)}
+.legend b{display:block;color:var(--ink);font-size:.95rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.c-warkop{background:var(--kopi)} .c-wisma{background:var(--wisma)} .c-umrah{background:var(--umrah)}
+
+/* unit rows */
+.unit{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 0;border-top:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left}
+.unit:first-of-type{border-top:0}
+.unit .name{font-weight:700}
+.unit .saldo{font-weight:800;text-align:right}
+.unit .sub{font-size:.8rem;color:var(--muted)}
+
+/* insights */
+.insight{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.insight:first-of-type{border-top:0}
+.insight .bar{width:4px;border-radius:4px;flex:none}
+
+/* ask */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:1px solid var(--line);background:var(--paper);padding:7px 12px;border-radius:99px;font-size:.82rem;cursor:pointer;text-align:left}
+.chip[aria-pressed=true]{background:var(--green);color:#fff;border-color:var(--green)}
+.ask-row{display:flex;gap:8px}
+.ask-row input{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--paper)}
+.btn{border:0;background:var(--green);color:#fff;font-weight:700;padding:11px 16px;border-radius:12px;cursor:pointer}
+.btn.ghost{background:var(--green-soft);color:var(--green)}
+.chat{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.msg{padding:10px 12px;border-radius:14px;max-width:92%;font-size:.92rem}
+.msg.q{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:4px}
+.msg.a{align-self:flex-start;background:var(--green-soft);border-bottom-left-radius:4px}
+.msg.a small{display:block;margin-top:6px;color:var(--muted);font-size:.72rem}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.stat .v{font-size:1.25rem;font-weight:800}
+.stat .k{font-size:.8rem;color:var(--muted)}
+.unit-head{display:flex;align-items:center;gap:10px}
+.unit-head .sw{width:14px;height:36px;border-radius:5px}
+
+/* bars list */
+.hbar{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:.88rem;margin-top:10px}
+.hbar .track{grid-column:1/-1;height:8px;background:var(--paper);border-radius:99px;overflow:hidden}
+.hbar .fill{height:100%;border-radius:99px}
+
+svg.chart{width:100%;height:auto;display:block;margin-top:8px}
+svg.chart text{font-size:10px;fill:var(--muted);font-family:inherit}
+
+/* room grid */
+.rooms{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
+.rooms table{border-collapse:separate;border-spacing:3px;font-size:.72rem}
+.rooms th{font-weight:600;color:var(--muted);padding:0 2px;white-space:nowrap}
+.rooms th.rn{text-align:left;padding-right:6px}
+.rooms td{width:26px;height:26px;border-radius:5px;background:var(--paper);border:1px solid var(--line)}
+.rooms td.b{background:var(--wisma);border-color:var(--wisma)}
+.rooms th.today{color:var(--wisma)}
+
+/* jamaah */
+.paket{padding:12px 0;border-top:1px solid var(--line)}
+.paket:first-of-type{border-top:0}
+.jm{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 0;border-top:1px solid var(--line)}
+.jm .track{grid-column:1/-1;height:6px;background:var(--paper);border-radius:99px;overflow:hidden;margin-top:4px}
+.jm .fill{height:100%;background:var(--umrah)}
+.tag{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:99px}
+.tag.ok{background:#DDF1E5;color:var(--good)} .tag.no{background:#F7E7D0;color:var(--umrah-text)}
+.linkbtn{border:0;background:none;color:var(--green);font-weight:700;font-size:.8rem;padding:4px 0;cursor:pointer;text-align:left}
+
+/* form */
+form label{display:block;font-weight:600;font-size:.88rem;margin:12px 0 5px}
+form input,form select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--paper)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg label{margin:0;border:1px solid var(--line);border-radius:12px;padding:11px;text-align:center;cursor:pointer;background:var(--paper)}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg label:has(input:checked){background:var(--green);color:#fff;border-color:var(--green)}
+.seg label:has(input:focus-visible){outline:3px solid var(--green);outline-offset:2px}
+.tx{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:.88rem}
+.tx .amt{font-weight:700;text-align:right}
+.tx .amt.out{color:var(--bad)}
+.card h3+.tx{border-top:0}
+.tx .new{font-size:.7rem;color:var(--green);font-weight:700}
+
+.note{font-size:.8rem;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:10px 12px}
+.toast{position:fixed;left:50%;bottom:86px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:.88rem;opacity:0;pointer-events:none;transition:.25s;z-index:9;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (min-width:860px){
+  .app{grid-template-columns:220px 1fr;grid-template-rows:auto 1fr}
+  .top{grid-column:1/-1;padding:18px 28px}
+  .top-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+  .period{margin-top:0;width:340px}
+  nav.tabs{position:sticky;top:0;align-self:start;grid-template-columns:1fr;border-top:0;background:none;padding:20px 12px;gap:4px}
+  nav.tabs button{flex-direction:row;gap:10px;font-size:.92rem;padding:8px;border-radius:12px}
+  nav.tabs button[aria-current=page]{background:var(--green-soft)}
+  nav.tabs button[aria-current=page] .ic{background:none}
+  nav.tabs .ic{width:28px}
+  main{padding:20px 28px 40px;margin:0}
+  .cols{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
+  .cols>*+*{margin-top:0}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .toast{bottom:30px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <div class="top-row">
+          <div>
+            <p class="hello">Assalamualaikum,</p>
+            <h1 class="who">Bang Khairil</h1>
+          </div>
+          <span class="demo-badge">Demo · data contoh</span>
+        </div>
+      </div>
+      <div class="period" role="group" aria-label="Periode">
+        <button data-p="hari" aria-pressed="false">Hari ini</button>
+        <button data-p="minggu" aria-pressed="false">7 hari</button>
+        <button data-p="bulan" aria-pressed="true">Bulan ini</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Menu">
+    <button data-t="ringkasan" aria-current="page"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 13h6V4H4zM14 20h6v-9h-6zM14 4h6v4h-6zM4 20h6v-3H4z"/></svg></span>Ringkasan</button>
+    <button data-t="warkop"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"/></svg></span>Warkop</button>
+    <button data-t="wisma"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 19V7M3 13h18v6M21 19v-4a3 3 0 0 0-3-3h-7v1M7 11.5a1.5 1.5 0 1 0 0-.01"/></svg></span>Wisma</button>
+    <button data-t="umrah"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V9l8-5 8 5v12M4 21h16M9 21v-6h6v6M4 9h16"/></svg></span>Umrah</button>
+    <button data-t="catat"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>Catat</button>
+  </nav>
+
+  <main>
+    <section class="tab on" id="t-ringkasan">
+      <div class="cols">
+        <div class="stack">
+          <div class="card hero" id="hero"></div>
+          <div class="card" id="units"></div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <h2>Catatan asisten</h2>
+            <p class="small muted">Dibaca otomatis dari data ketiga usaha.</p>
+            <div id="insights" style="margin-top:6px"></div>
+          </div>
+          <div class="card">
+            <h2>Tanya asisten</h2>
+            <p class="small muted">Tanya soal usaha Abang pakai bahasa sehari-hari.</p>
+            <div class="chips" id="askChips"></div>
+            <form class="ask-row" id="askForm">
+              <input id="askInput" placeholder="Contoh: berapa untung warkop minggu ini?" aria-label="Pertanyaan">
+              <button class="btn">Tanya</button>
+            </form>
+            <div class="chat" id="chat" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab" id="t-warkop"></section>
+    <section class="tab" id="t-wisma"></section>
+    <section class="tab" id="t-umrah"></section>
+
+    <section class="tab" id="t-catat">
+      <div class="cols">
+        <form class="card" id="txForm">
+          <h2>Catat transaksi</h2>
+          <p class="small muted">Untuk uang yang tidak tercatat di aplikasi kasir.</p>
+          <label for="fUnit">Usaha</label>
+          <select id="fUnit">
+            <option value="warkop">Warung kopi</option>
+            <option value="wisma">Wisma</option>
+            <option value="umrah">Travel umrah</option>
+          </select>
+          <label>Jenis</label>
+          <div class="seg">
+            <label><input type="radio" name="fType" value="keluar" checked>Uang keluar</label>
+            <label><input type="radio" name="fType" value="masuk">Uang masuk</label>
+          </div>
+          <label for="fAmt">Jumlah (Rp)</label>
+          <input id="fAmt" inputmode="numeric" placeholder="150.000" required autocomplete="off">
+          <label for="fNote">Keterangan</label>
+          <input id="fNote" placeholder="Beli gula 10 kg" required>
+          <label for="fDate">Tanggal</label>
+          <input id="fDate" type="date">
+          <button class="btn" style="width:100%;margin-top:16px">Simpan transaksi</button>
+        </form>
+        <div class="card">
+          <h2>Transaksi terakhir</h2>
+          <div id="txList" style="margin-top:6px"></div>
+        </div>
+      </div>
+    </section>
+    <p class="note" style="margin-top:18px">Ini demo dengan data contoh, bukan data usaha asli. Di versi jadi, data penjualan warkop diambil langsung dari aplikasi kasir dan spreadsheet Abang, jadi tidak perlu dicatat dua kali.</p>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ---------- data contoh (deterministik) ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=mulberry32(96);
+const ri=(a,b)=>Math.floor(a+R()*(b-a+1));
+const pick=a=>a[Math.floor(R()*a.length)];
+const TODAY=new Date(2026,10,24);
+const key=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const parse=k=>{const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)};
+const START=new Date(2026,9,1);
+const DAYS=[];for(let d=new Date(START);d<=TODAY;d=addDays(d,1))DAYS.push(key(d));
+const TK=key(TODAY);
+
+const UNITS={warkop:{nama:'Warung kopi',c:'var(--kopi)'},wisma:{nama:'Wisma',c:'var(--wisma)'},umrah:{nama:'Travel umrah',c:'var(--umrah)'}};
+let TX=[]; // {d,u,t,a,n}
+const add=(d,u,t,a,n)=>TX.push({d,u,t,a:Math.round(a/1000)*1000,n});
+
+// Warkop
+const MENU=[['Kopi sanger',12000,60],['Kopi hitam',8000,70],['Teh tarik',10000,30],['Mie Aceh',20000,35],['Nasi gurih',18000,25],['Roti selai srikaya',8000,30],['Timphan',5000,25]];
+const SOLD={}; // day -> qty array
+DAYS.forEach(k=>{
+  const dow=parse(k).getDay(); const f=(dow===0||dow===6)?1.3:(dow===5?0.85:1);
+  const q=MENU.map(m=>Math.round(m[2]*f*(0.8+R()*0.4)));SOLD[k]=q;
+  const rev=q.reduce((s,x,i)=>s+x*MENU[i][1],0);
+  add(k,'warkop','masuk',rev,'Penjualan kasir');
+  add(k,'warkop','keluar',rev*(0.36+R()*0.08),'Belanja bahan');
+  const dd=parse(k).getDate();
+  if(dd===1)add(k,'warkop','keluar',8000000,'Gaji karyawan');
+  if(dd===5)add(k,'warkop','keluar',1200000,'Listrik & air');
+});
+
+// Wisma
+const ROOMS=[];for(let i=1;i<=10;i++)ROOMS.push({n:'Kamar '+i,tipe:i<=6?'Standar':'Keluarga',harga:i<=6?250000:400000});
+const NAMES=['Muhammad Yusuf','Cut Rahmah','Teuku Fadli','Nurhayati','Fauziah','Ridwan','Mukhlis','Salmiah','Abdul Hadi','Nurul Akmal','Rosnani','Iskandar','Maimunah','Junaidi','Safrida','Husaini','Ainul Mardhiah','Darwis','Khadijah','Syahrul','Nurlela','Azwar','Marlina','Saifullah','Rahmawati','Bukhari','Hasnah','Zulkifli','Ummi Kalsum','Hasballah','Cut Nyak Fitri','Mawardi','Yusniar','Rusli','Zahratul Aini','Amiruddin','Nurjannah','Taufik','Halimah','Murdani','Sulaiman','Rahmi','Fakhrurrazi','Asmaul Husna','Ilyas','Siti Hajar'];
+const BOOK={}; // room idx -> {dayKey:guest}
+const GRID_END=addDays(TODAY,13);
+ROOMS.forEach((r,i)=>{BOOK[i]={};let d=new Date(START);
+  while(d<=GRID_END){const dow=d.getDay();const fut=d>TODAY;const p=(dow===5||dow===6?0.62:0.36)*(fut?0.7:1);
+    if(R()<p){const n=ri(1,3);const g=pick(NAMES);for(let j=0;j<n;j++){BOOK[i][key(addDays(d,j))]=g}d=addDays(d,n)}else d=addDays(d,1)}});
+DAYS.forEach(k=>{
+  let rev=0,occ=0;ROOMS.forEach((r,i)=>{if(BOOK[i][k]){rev+=r.harga;occ++}});
+  if(rev)add(k,'wisma','masuk',rev,`Sewa kamar (${occ} kamar)`);
+  if(occ)add(k,'wisma','keluar',occ*35000,'Laundry & kebersihan');
+  const dd=parse(k).getDate();
+  if(dd===1)add(k,'wisma','keluar',4500000,'Gaji penjaga wisma');
+  if(dd===5)add(k,'wisma','keluar',1600000,'Listrik & air');
+});
+
+// Umrah
+const PAKET=[{id:'jan',nama:'Umrah Januari 2027',harga:32000000,kuota:40,isi:24},{id:'rmd',nama:'Umrah Ramadhan 2027',harga:38000000,kuota:45,isi:16}];
+const JAMAAH=[];let ni=0;
+PAKET.forEach(p=>{for(let j=0;j<p.isi;j++){
+  const nm=NAMES[ni++%NAMES.length];const pays=[];
+  let d=ri(0,DAYS.length-15);pays.push([DAYS[d],10000000]);let paid=10000000;
+  const lunasPeluang=p.id==='jan'?0.55:0.2;
+  if(R()<lunasPeluang){d=ri(d+1,DAYS.length-1);pays.push([DAYS[d],p.harga-paid]);paid=p.harga}
+  else{const c=ri(0,2);for(let x=0;x<c&&d<DAYS.length-2;x++){d=ri(d+1,DAYS.length-1);const a=ri(3,8)*1000000;pays.push([DAYS[d],a]);paid+=a}}
+  pays.forEach(([k,a],ix)=>add(k,'umrah','masuk',a,(ix===0?'DP ':a+paid>=p.harga&&paid===p.harga&&ix===pays.length-1?'Pelunasan ':'Cicilan ')+nm));
+  JAMAAH.push({nama:nm,paket:p.id,paid,harga:p.harga,hp:'08xx-xxxx-xxxx'});
+}});
+add('2026-10-20','umrah','keluar',180000000,'DP tiket pesawat (Januari)');
+add('2026-11-12','umrah','keluar',150000000,'DP hotel Makkah & Madinah (Januari)');
+add('2026-11-18','umrah','keluar',30000000,'Pengurusan visa (Januari)');
+['2026-10-01','2026-11-01'].forEach(k=>add(k,'umrah','keluar',6500000,'Operasional kantor'));
+
+// transaksi yang dicatat pengguna (disimpan di HP)
+const LS='demo-khairil-tx';
+let USER=JSON.parse(localStorage.getItem(LS)||'[]');
+const ALL=()=>TX.concat(USER);
+
+/* ---------- helper ---------- */
+const rp=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+const rpk=n=>{const a=Math.abs(n),s=n<0?'−':'';if(a>=1e9)return s+'Rp '+(a/1e9).toLocaleString('id-ID',{maximumFractionDigits:2})+' M';if(a>=1e6)return s+'Rp '+(a/1e6).toLocaleString('id-ID',{maximumFractionDigits:1})+' jt';if(a>=1e3)return s+'Rp '+Math.round(a/1e3)+' rb';return s+'Rp '+a};
+const BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const tgl=k=>{const d=parse(k);return d.getDate()+' '+BLN[d.getMonth()]};
+const HARI=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+let PERIOD='bulan';
+function range(p,prev){ // [startKey,endKey]
+  if(p==='hari'){const d=prev?addDays(TODAY,-1):TODAY;return[key(d),key(d)]}
+  if(p==='minggu'){const e=prev?addDays(TODAY,-7):TODAY;return[key(addDays(e,-6)),key(e)]}
+  if(!prev)return[key(new Date(2026,10,1)),TK];
+  return[key(new Date(2026,9,1)),key(new Date(2026,9,TODAY.getDate()))];
+}
+const PNAME={hari:'hari ini',minggu:'7 hari terakhir',bulan:'bulan ini'};
+const PCMP={hari:'kemarin',minggu:'7 hari sebelumnya',bulan:'periode sama bulan lalu'};
+function sum(u,t,[s,e]){return ALL().filter(x=>(!u||x.u===u)&&(!t||x.t===t)&&x.d>=s&&x.d<=e).reduce((a,x)=>a+x.a,0)}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function deltaHTML(now,before){if(!before)return'';const p=(now-before)/Math.abs(before)*100;const up=p>=0;
+  return `<span class="delta ${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(p).toFixed(0)}% dibanding ${PCMP[PERIOD]}</span>`}
+function barChart(vals,labels,color,fmt){
+  const W=320,H=120,pad=18,bw=(W)/vals.length,max=Math.max(...vals)||1;
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H+pad}" role="img" aria-label="Grafik">`;
+  vals.forEach((v,i)=>{const h=v/max*H;s+=`<rect x="${i*bw+1}" y="${H-h}" width="${bw-2}" height="${h}" rx="2" fill="${color}"><title>${labels[i]}: ${fmt(v)}</title></rect>`;
+    if(i%5===0||i===vals.length-1)s+=`<text x="${i*bw+bw/2}" y="${H+13}" text-anchor="middle">${labels[i]}</text>`});
+  return s+`<text x="0" y="9">${fmt(max)}</text></svg>`;
+}
+function occRate([s,e]){let tot=0,b=0;for(let d=parse(s);d<=parse(e);d=addDays(d,1)){const k=key(d);ROOMS.forEach((r,i)=>{tot++;if(BOOK[i][k])b++})}return tot?b/tot:0}
+
+/* ---------- render ---------- */
+function renderRingkasan(){
+  const r=range(PERIOD),pr=range(PERIOD,true);
+  const masuk=sum(null,'masuk',r),keluar=sum(null,'keluar',r),net=masuk-keluar;
+  const netPrev=sum(null,'masuk',pr)-sum(null,'keluar',pr);
+  const per=Object.keys(UNITS).map(u=>({u,m:sum(u,'masuk',r),k:sum(u,'keluar',r)}));
+  document.getElementById('hero').innerHTML=`
+    <p class="label">Saldo bersih ${PNAME[PERIOD]} · uang masuk dikurangi uang keluar</p>
+    <p class="big num" style="color:${net<0?'var(--bad)':'var(--ink)'}">${rp(net)}</p>
+    ${deltaHTML(net,netPrev)}
+    <div class="split" role="img" aria-label="Pembagian uang masuk per usaha">
+      ${per.map(x=>`<span style="flex-grow:${x.m||0.0001};background:${UNITS[x.u].c}"></span>`).join('')}
+    </div>
+    <p class="small muted" style="margin-bottom:8px">Asal uang masuk (${rpk(masuk)})</p>
+    <div class="legend">${per.map(x=>`<div><span class="dot c-${x.u}"></span>${UNITS[x.u].nama}<b class="num">${masuk?Math.round(x.m/masuk*100):0}%</b></div>`).join('')}</div>`;
+  document.getElementById('units').innerHTML=`<h2>Per usaha</h2>`+per.map(x=>`
+    <button class="unit" data-go="${x.u}">
+      <span class="name"><span class="dot c-${x.u}"></span>${UNITS[x.u].nama}</span>
+      <span class="saldo num" style="color:${x.m-x.k<0?'var(--bad)':'var(--ink)'}">${rpk(x.m-x.k)}</span>
+      <span class="sub num">Masuk ${rpk(x.m)} · Keluar ${rpk(x.k)}${x.u==='umrah'?'<br>Sebagian besar masih uang titipan jamaah untuk tiket & hotel':''}</span><span class="sub">Lihat ›</span>
+    </button>`).join('');
+  document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+  renderInsights();
+}
+function renderInsights(){
+  const ins=[];
+  // warkop hari terbaik minggu ini
+  const last7=[];for(let i=6;i>=0;i--){const k=key(addDays(TODAY,-i));last7.push([k,sum('warkop','masuk',[k,k])])}
+  const best=last7.reduce((a,b)=>b[1]>a[1]?b:a);
+  ins.push(['warkop',`Warkop paling ramai minggu ini hari <b>${HARI[parse(best[0]).getDay()]}</b> (${rpk(best[1])}). Akhir pekan rata-rata 30% lebih ramai dari hari biasa.`]);
+  // wisma
+  const occNext=(()=>{let b=0;for(let i=0;i<7;i++){const k=key(addDays(TODAY,i));ROOMS.forEach((r,j)=>{if(BOOK[j][k])b++})}return b/(7*ROOMS.length)})();
+  ins.push(['wisma',`Hunian wisma 7 hari ke depan baru <b>${Math.round(occNext*100)}%</b>. Ada kamar kosong yang bisa ditawarkan ke jamaah atau tamu acara.`]);
+  // umrah
+  const bl=JAMAAH.filter(j=>j.paid<j.harga);const sisa=bl.reduce((a,j)=>a+j.harga-j.paid,0);
+  ins.push(['umrah',`<b>${bl.length} jamaah</b> belum lunas, sisa tagihan ${rpk(sisa)}. Jamaah paket Januari perlu diingatkan, keberangkatan tinggal sekitar 2 bulan.`]);
+  // pengeluaran bahan warkop
+  const r=range('bulan'),pr=range('bulan',true);
+  const ratio=x=>{const m=sum('warkop','masuk',x);const b=ALL().filter(t=>t.u==='warkop'&&t.n==='Belanja bahan'&&t.d>=x[0]&&t.d<=x[1]).reduce((a,t)=>a+t.a,0);return m?b/m:0};
+  const a=ratio(r),b=ratio(pr);
+  ins.push(['warkop',`Belanja bahan warkop bulan ini <b>${Math.round(a*100)}%</b> dari penjualan (bulan lalu ${Math.round(b*100)}%). ${a>b?'Sedikit naik, coba cek harga gula dan kopi.':'Masih terkendali.'}`]);
+  document.getElementById('insights').innerHTML=ins.map(([u,t])=>`<div class="insight"><span class="bar c-${u}"></span><p class="small">${t}</p></div>`).join('');
+}
+
+function renderWarkop(){
+  const r=range(PERIOD),pr=range(PERIOD,true);
+  const m=sum('warkop','masuk',r),k=sum('warkop','keluar',r);
+  const days=DAYS.filter(d=>d>=r[0]&&d<=r[1]);
+  const qty=MENU.map((_,i)=>days.reduce((a,d)=>a+SOLD[d][i],0));
+  const cups=qty[0]+qty[1]+qty[2];
+  const order=MENU.map((x,i)=>({n:x[0],q:qty[i],v:qty[i]*x[1]})).sort((a,b)=>b.v-a.v);
+  const last30=DAYS.slice(-30);
+  document.getElementById('t-warkop').innerHTML=`<div class="stack">
+    <div class="unit-head"><span class="sw c-warkop"></span><div><h2>Warung kopi</h2><p class="small muted">${PNAME[PERIOD]} · data dari aplikasi kasir</p></div></div>
+    <div class="stats">
+      <div class="stat"><div class="k">Penjualan</div><div class="v num">${rpk(m)}</div>${deltaHTML(m,sum('warkop','masuk',pr))}</div>
+      <div class="stat"><div class="k">Pengeluaran</div><div class="v num">${rpk(k)}</div></div>
+      <div class="stat"><div class="k">Saldo bersih</div><div class="v num">${rpk(m-k)}</div></div>
+      <div class="stat"><div class="k">Gelas minuman</div><div class="v num">${cups.toLocaleString('id-ID')}</div></div>
+    </div>
+    <div class="cols">
+      <div class="card"><h3>Penjualan harian, 30 hari terakhir</h3>${barChart(last30.map(d=>sum('warkop','masuk',[d,d])),last30.map(tgl),'var(--kopi)',rpk)}</div>
+      <div class="card"><h3>Menu terlaris ${PNAME[PERIOD]}</h3>
+        ${order.map(o=>`<div class="hbar"><span>${o.n} <span class="muted num">· ${o.q.toLocaleString('id-ID')} porsi</span></span><b class="num">${rpk(o.v)}</b><div class="track"><div class="fill c-warkop" style="width:${o.v/order[0].v*100}%"></div></div></div>`).join('')}
+      </div>
+    </div></div>`;
+}
+
+function renderWisma(){
+  const r=range(PERIOD),pr=range(PERIOD,true);
+  const m=sum('wisma','masuk',r),k=sum('wisma','keluar',r);
+  const occ=occRate(r);
+  const grid=[];for(let i=0;i<14;i++)grid.push(addDays(TODAY,i));
+  const kosong=ROOMS.filter((x,i)=>!BOOK[i][TK]);
+  const tamu=ROOMS.map((x,i)=>({room:x.n,g:BOOK[i][TK],baru:BOOK[i][TK]&&BOOK[i][TK]!==BOOK[i][key(addDays(TODAY,-1))]})).filter(x=>x.g);
+  document.getElementById('t-wisma').innerHTML=`<div class="stack">
+    <div class="unit-head"><span class="sw c-wisma"></span><div><h2>Wisma</h2><p class="small muted">${PNAME[PERIOD]} · ${ROOMS.length} kamar (contoh)</p></div></div>
+    <div class="stats">
+      <div class="stat"><div class="k">Pendapatan</div><div class="v num">${rpk(m)}</div>${deltaHTML(m,sum('wisma','masuk',pr))}</div>
+      <div class="stat"><div class="k">Tingkat hunian</div><div class="v num">${Math.round(occ*100)}%</div></div>
+      <div class="stat"><div class="k">Saldo bersih</div><div class="v num">${rpk(m-k)}</div></div>
+      <div class="stat"><div class="k">Kamar kosong malam ini</div><div class="v num">${kosong.length}</div></div>
+    </div>
+    <div class="card"><h3>Jadwal kamar 14 hari ke depan</h3><p class="small muted">Kotak biru = sudah dipesan. Geser ke samping di HP.</p>
+      <div class="rooms"><table><thead><tr><th></th>${grid.map((d,i)=>`<th class="${i===0?'today':''}">${i===0?'Hari ini':d.getDate()}<br>${HARI[d.getDay()].slice(0,3)}</th>`).join('')}</tr></thead>
+      <tbody>${ROOMS.map((x,i)=>`<tr><th class="rn">${x.n}</th>${grid.map(d=>{const g=BOOK[i][key(d)];return `<td class="${g?'b':''}" title="${g?esc(x.n+': '+g):x.n+': kosong'}"></td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+    </div>
+    <div class="card"><h3>Tamu menginap malam ini</h3>
+      ${tamu.length?tamu.map(t=>`<div class="tx" style="grid-template-columns:1fr auto"><span><b>${esc(t.g)}</b><br><span class="muted small">${t.room}</span></span><span class="small ${t.baru?'':'muted'}">${t.baru?'Check-in hari ini':'Lanjut menginap'}</span></div>`).join(''):'<p class="muted small">Belum ada tamu malam ini.</p>'}
+    </div></div>`;
+}
+
+let JFILTER='belum';
+function renderUmrah(){
+  const r=range(PERIOD);
+  const m=sum('umrah','masuk',r),k=sum('umrah','keluar',r);
+  const bl=JAMAAH.filter(j=>j.paid<j.harga);
+  const list=JAMAAH.filter(j=>JFILTER==='semua'||(JFILTER==='belum'?j.paid<j.harga:j.paid>=j.harga)).sort((a,b)=>a.paid/a.harga-b.paid/b.harga);
+  document.getElementById('t-umrah').innerHTML=`<div class="stack">
+    <div class="unit-head"><span class="sw c-umrah"></span><div><h2>Travel umrah</h2><p class="small muted">${PNAME[PERIOD]} · paket dan harga contoh</p></div></div>
+    <div class="stats">
+      <div class="stat"><div class="k">Pembayaran jamaah</div><div class="v num">${rpk(m)}</div></div>
+      <div class="stat"><div class="k">Bayar ke maskapai/hotel</div><div class="v num">${rpk(k)}</div></div>
+      <div class="stat"><div class="k">Jamaah terdaftar</div><div class="v num">${JAMAAH.length}</div></div>
+      <div class="stat"><div class="k">Sisa tagihan</div><div class="v num">${rpk(bl.reduce((a,j)=>a+j.harga-j.paid,0))}</div></div>
+    </div>
+    <div class="cols">
+      <div class="card"><h3>Paket</h3>${PAKET.map(p=>{const js=JAMAAH.filter(j=>j.paket===p.id);const paid=js.reduce((a,j)=>a+j.paid,0);return `
+        <div class="paket"><div style="display:flex;justify-content:space-between;gap:8px"><b>${p.nama}</b><span class="num small">${p.isi}/${p.kuota} kursi</span></div>
+        <div class="hbar" style="margin-top:6px"><span class="small muted">Kursi terisi</span><span class="small num">${Math.round(p.isi/p.kuota*100)}%</span><div class="track"><div class="fill c-umrah" style="width:${p.isi/p.kuota*100}%"></div></div></div>
+        <div class="hbar"><span class="small muted">Sudah dibayar jamaah</span><span class="small num">${rpk(paid)} dari ${rpk(p.isi*p.harga)}</span><div class="track"><div class="fill c-wisma" style="width:${paid/(p.isi*p.harga)*100}%"></div></div></div>
+        <p class="small muted" style="margin-top:6px">Harga ${rpk(p.harga)} per orang</p></div>`}).join('')}</div>
+      <div class="card"><h3>Jamaah</h3>
+        <div class="chips" role="group" aria-label="Saring jamaah">${[['belum','Belum lunas ('+bl.length+')'],['lunas','Lunas'],['semua','Semua']].map(([v,l])=>`<button class="chip" data-jf="${v}" aria-pressed="${JFILTER===v}">${l}</button>`).join('')}</div>
+        ${list.map(j=>{const p=PAKET.find(x=>x.id===j.paket);const ok=j.paid>=j.harga;return `<div class="jm">
+          <span><b>${esc(j.nama)}</b><br><span class="small muted">${p.nama}</span></span>
+          <span style="text-align:right"><span class="tag ${ok?'ok':'no'}">${ok?'Lunas':'Sisa '+rpk(j.harga-j.paid)}</span><br>${ok?'':`<button class="linkbtn" data-wa="${esc(j.nama)}" data-sisa="${j.harga-j.paid}">Ingatkan via WA</button>`}</span>
+          <div class="track"><div class="fill" style="width:${Math.min(100,j.paid/j.harga*100)}%"></div></div></div>`}).join('')}
+      </div>
+    </div></div>`;
+  document.querySelectorAll('[data-jf]').forEach(b=>b.onclick=()=>{JFILTER=b.dataset.jf;renderUmrah()});
+  document.querySelectorAll('[data-wa]').forEach(b=>b.onclick=()=>toast(`Di versi asli, tombol ini membuka WhatsApp dengan pesan pengingat untuk ${b.dataset.wa} (sisa ${rp(+b.dataset.sisa)}).`));
+}
+
+function renderTx(){
+  const list=ALL().slice().sort((a,b)=>b.d.localeCompare(a.d)||(b.user?1:0)-(a.user?1:0)).slice(0,15);
+  document.getElementById('txList').innerHTML=list.map(t=>`<div class="tx">
+    <span class="dot c-${t.u}" title="${UNITS[t.u].nama}"></span>
+    <span>${esc(t.n)} ${t.user?'<span class="new">baru</span>':''}<br><span class="small muted">${UNITS[t.u].nama} · ${tgl(t.d)}</span></span>
+    <span class="amt num ${t.t==='keluar'?'out':''}">${t.t==='keluar'?'−':'+'}${rpk(t.a)}</span></div>`).join('');
+}
+
+/* ---------- tanya asisten (simulasi) ---------- */
+const QS=['Berapa untung warkop minggu ini?','Siapa jamaah yang belum lunas?','Berapa kamar wisma kosong malam ini?','Pengeluaran terbesar bulan ini apa?'];
+function answer(q){
+  q=q.toLowerCase();
+  const per=/hari ini/.test(q)?'hari':/minggu|7 hari/.test(q)?'minggu':'bulan';
+  const r=range(per);const U=/warkop|kopi|warung/.test(q)?'warkop':/wisma|kamar|tamu|nginap/.test(q)?'wisma':/umrah|jamaah|jemaah|paket/.test(q)?'umrah':null;
+  if(/lunas|tagih|cicil|utang|hutang/.test(q)){const bl=JAMAAH.filter(j=>j.paid<j.harga).sort((a,b)=>(b.harga-b.paid)-(a.harga-a.paid));
+    return `Ada ${bl.length} jamaah belum lunas. Sisa terbesar: ${bl.slice(0,3).map(j=>`${j.nama} (${rpk(j.harga-j.paid)})`).join(', ')}. Mau saya buatkan pesan pengingat WA untuk mereka?`}
+  if(/kosong|kamar|hunian/.test(q)){const k=ROOMS.filter((x,i)=>!BOOK[i][TK]);return `Malam ini ${k.length} dari ${ROOMS.length} kamar kosong: ${k.map(x=>x.n).join(', ')||'-'}.`}
+  if(/pengeluaran|keluar|biaya|belanja/.test(q)){const t=ALL().filter(x=>x.t==='keluar'&&x.d>=r[0]&&x.d<=r[1]&&(!U||x.u===U));
+    const g={};t.forEach(x=>{const n=x.n.replace(/ \(.*\)/,'');g[x.u+'|'+n]=(g[x.u+'|'+n]||0)+x.a});const top=Object.entries(g).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    return `Pengeluaran terbesar ${PNAME[per]}: ${top.map(([k,v])=>`${k.split('|')[1]} – ${UNITS[k.split('|')[0]].nama} (${rpk(v)})`).join('; ')}.`}
+  if(/untung|laba|saldo|hasil|dapat|pendapatan|omzet|penjualan/.test(q)){const us=U?[U]:Object.keys(UNITS);
+    return us.map(u=>{const m=sum(u,'masuk',r),k=sum(u,'keluar',r);return `${UNITS[u].nama} ${PNAME[per]}: masuk ${rpk(m)}, keluar ${rpk(k)}, saldo ${rpk(m-k)}.`}).join(' ')}
+  if(/laris|menu/.test(q)){const days=DAYS.filter(d=>d>=r[0]);const q2=MENU.map((m,i)=>[m[0],days.reduce((a,d)=>a+SOLD[d][i],0)]).sort((a,b)=>b[1]-a[1]);return `Menu terlaris ${PNAME[per]}: ${q2.slice(0,3).map(x=>`${x[0]} (${x[1]} porsi)`).join(', ')}.`}
+  return 'Di demo ini saya baru bisa menjawab soal untung, pengeluaran, kamar kosong, menu terlaris, dan jamaah yang belum lunas. Versi asli bisa menjawab lebih banyak pertanyaan.';
+}
+function ask(q){if(!q.trim())return;const c=document.getElementById('chat');
+  c.insertAdjacentHTML('beforeend',`<div class="msg q">${esc(q)}</div><div class="msg a">${answer(q)}<small>Jawaban simulasi dari data contoh</small></div>`);
+  c.lastElementChild.scrollIntoView({block:'nearest',behavior:'smooth'})}
+document.getElementById('askChips').innerHTML=QS.map(q=>`<button class="chip" type="button">${q}</button>`).join('');
+document.querySelectorAll('#askChips .chip').forEach(b=>b.onclick=()=>ask(b.textContent));
+document.getElementById('askForm').onsubmit=e=>{e.preventDefault();const i=document.getElementById('askInput');ask(i.value);i.value=''};
+
+/* ---------- form catat ---------- */
+const fAmt=document.getElementById('fAmt');
+fAmt.addEventListener('input',()=>{const n=fAmt.value.replace(/\D/g,'');fAmt.value=n?(+n).toLocaleString('id-ID'):''});
+document.getElementById('fDate').value=TK;document.getElementById('fDate').max=TK;document.getElementById('fDate').min=DAYS[0];
+document.getElementById('txForm').onsubmit=e=>{e.preventDefault();
+  const a=+fAmt.value.replace(/\D/g,'');if(!a){toast('Isi jumlah uangnya dulu.');fAmt.focus();return}
+  const t={d:document.getElementById('fDate').value||TK,u:document.getElementById('fUnit').value,t:document.querySelector('[name=fType]:checked').value,a,n:document.getElementById('fNote').value.trim(),user:true};
+  USER.push(t);localStorage.setItem(LS,JSON.stringify(USER));
+  fAmt.value='';document.getElementById('fNote').value='';
+  renderAll();toast(`Transaksi disimpan: ${t.t==='keluar'?'uang keluar':'uang masuk'} ${rp(a)} untuk ${UNITS[t.u].nama}.`)};
+
+/* ---------- navigasi ---------- */
+let TAB='ringkasan';
+function go(t){TAB=t;document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('on',s.id==='t-'+t));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.dataset.t===t?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'));
+  window.scrollTo({top:0})}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.t));
+document.querySelectorAll('.period button').forEach(b=>b.onclick=()=>{PERIOD=b.dataset.p;document.querySelectorAll('.period button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderAll()});
+let tt;function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),3200)}
+function renderAll(){renderRingkasan();renderWarkop();renderWisma();renderUmrah();renderTx()}
+renderAll();
+</script>
+</body>
+</html>
