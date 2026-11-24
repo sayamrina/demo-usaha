@@ -3,160 +3,173 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0E5A47">
+<meta name="theme-color" content="#2B47D6">
 <title>Demo Sistem Usaha – Bang Khairil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F3F5F2; --card:#FFFFFF; --ink:#17201D; --muted:#5B6661; --line:#D9DFDB;
-  --green:#0E5A47; --green-soft:#E1EEE9;
-  --kopi:#8A4B22; --wisma:#2F6690; --umrah:#A57A12; --umrah-text:#7D5C0A;
-  --bad:#B3261E; --good:#1E7A4C;
-  --r-lg:20px; --r-sm:10px;
+  --bg:#F2F4FA; --card:#FFFFFF; --ink:#141A2E; --muted:#5A6275; --line:#E3E7F0;
+  --brand:#2B47D6; --brand-dark:#1C2F9E; --brand-soft:#E8ECFF;
+  --kopi:#E8641C; --kopi-soft:#FDEBDD;
+  --wisma:#0D9488; --wisma-soft:#D9F3EF;
+  --umrah:#C08A00; --umrah-soft:#FBF0D2; --umrah-text:#855F00;
+  --good:#15803D; --good-soft:#E3F6E8; --bad:#D92D20; --bad-soft:#FDE8E6;
   font-family:"Plus Jakarta Sans",system-ui,sans-serif;
-  color:var(--ink); background:var(--paper);
+  color:var(--ink); background:var(--bg);
 }
 *{box-sizing:border-box}
-body{margin:0;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{margin:0;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--green);outline-offset:2px;border-radius:6px}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:8px}
 .num{font-variant-numeric:tabular-nums}
-h1,h2,h3{margin:0;line-height:1.2}
-h2{font-size:1.15rem;font-weight:700}
-h3{font-size:1rem;font-weight:700}
+h1,h2,h3{margin:0;line-height:1.25}
+h2{font-size:1.2rem;font-weight:800}
+h3{font-size:1.05rem;font-weight:700}
 p{margin:0}
 
-/* layout */
 .app{display:grid;min-height:100dvh;grid-template-rows:auto 1fr auto}
-.top{background:var(--green);color:#fff;padding:14px 18px 16px}
-.top-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.top .hello{font-size:.9rem;opacity:.85}
-.top .who{font-size:1.2rem;font-weight:800}
-.demo-badge{font-size:.75rem;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:99px;white-space:nowrap}
-.period{display:flex;gap:6px;margin-top:14px;background:rgba(0,0,0,.18);padding:4px;border-radius:12px}
-.period button{flex:1;border:0;background:transparent;color:#fff;padding:7px 4px;border-radius:9px;font-weight:600;font-size:.85rem;cursor:pointer}
-.period button[aria-pressed=true]{background:#fff;color:var(--green)}
-main{padding:16px 16px 96px;max-width:980px;width:100%;margin:0 auto}
+.top{background:var(--brand);color:#fff;padding:18px 18px 64px;border-radius:0 0 28px 28px}
+.top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.top .hello{font-size:.95rem;opacity:.85}
+.top .who{font-size:1.45rem;font-weight:800}
+.top .today{font-size:.85rem;opacity:.8;margin-top:2px}
+.demo-badge{font-size:.75rem;font-weight:700;background:#FFD54A;color:#3A2C00;padding:5px 11px;border-radius:99px;white-space:nowrap}
+.period{display:flex;gap:4px;margin-top:16px;background:rgba(255,255,255,.16);padding:4px;border-radius:14px}
+.period button{flex:1;border:0;background:transparent;color:#fff;padding:10px 4px;border-radius:11px;font-weight:700;font-size:.92rem;cursor:pointer}
+.period button[aria-pressed=true]{background:#fff;color:var(--brand)}
+main{padding:0 16px 110px;margin:-48px auto 0;max-width:1000px;width:100%}
 section.tab{display:none}
 section.tab.on{display:block}
 .stack>*+*{margin-top:14px}
 
-nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:5}
-nav.tabs button{border:0;background:none;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.72rem;font-weight:600;color:var(--muted);cursor:pointer}
-nav.tabs svg{width:22px;height:22px}
-nav.tabs button[aria-current=page]{color:var(--green)}
-nav.tabs button[aria-current=page] .ic{background:var(--green-soft)}
-nav.tabs .ic{display:grid;place-items:center;width:46px;height:28px;border-radius:99px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:4px 4px calc(6px + env(safe-area-inset-bottom));z-index:5;box-shadow:0 -6px 20px rgba(20,26,46,.06)}
+nav.tabs button{border:0;background:none;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.78rem;font-weight:700;color:var(--muted);cursor:pointer}
+nav.tabs svg{width:23px;height:23px}
+nav.tabs .ic{display:grid;place-items:center;width:52px;height:32px;border-radius:99px}
+nav.tabs button[aria-current=page]{color:var(--brand)}
+nav.tabs button[aria-current=page] .ic{background:var(--brand-soft)}
 
-.card{background:var(--card);border-radius:var(--r-lg);padding:16px;border:1px solid var(--line)}
+.card{background:var(--card);border-radius:22px;padding:18px;box-shadow:0 1px 2px rgba(20,26,46,.05),0 6px 18px rgba(20,26,46,.05)}
 .muted{color:var(--muted)}
-.small{font-size:.85rem}
+.small{font-size:.88rem}
+.sub-h{color:var(--muted);font-size:.88rem;margin-top:2px}
 
 /* hero */
-.hero .label{color:var(--muted);font-size:.9rem}
-.hero .big{font-size:clamp(2.1rem,9vw,3rem);font-weight:800;letter-spacing:-.02em;margin:2px 0 4px}
-.delta{font-size:.85rem;font-weight:600}
-.delta.up{color:var(--good)} .delta.down{color:var(--bad)}
-.split{display:flex;height:30px;border-radius:8px;overflow:hidden;margin:18px 0 10px;gap:3px}
+.hero .label{color:var(--muted);font-weight:600}
+.hero .big{font-size:clamp(2.2rem,10vw,3.1rem);font-weight:800;letter-spacing:-.02em;margin:2px 0 6px;line-height:1.1}
+.delta{display:inline-block;font-size:.85rem;font-weight:700;padding:3px 10px;border-radius:99px}
+.delta.up{color:var(--good);background:var(--good-soft)} .delta.down{color:var(--bad);background:var(--bad-soft)}
+.io{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.io div{border-radius:16px;padding:12px}
+.io .in{background:var(--good-soft)} .io .out{background:var(--bad-soft)}
+.io span{display:block;font-size:.85rem;font-weight:600}
+.io .in span{color:var(--good)} .io .out span{color:var(--bad)}
+.io b{font-size:1.15rem}
+.split-h{font-weight:700;margin:20px 0 8px}
+.split{display:flex;height:16px;border-radius:99px;overflow:hidden;gap:3px}
 .split span{display:block;height:100%;transition:flex-grow .5s ease}
-.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.legend div{font-size:.8rem;color:var(--muted)}
-.legend b{display:block;color:var(--ink);font-size:.95rem}
-.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.legend div{font-size:.82rem;color:var(--muted)}
+.legend b{display:block;color:var(--ink);font-size:1.05rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:99px;margin-right:6px;vertical-align:0}
 .c-warkop{background:var(--kopi)} .c-wisma{background:var(--wisma)} .c-umrah{background:var(--umrah)}
+.s-warkop{background:var(--kopi-soft);color:var(--kopi)} .s-wisma{background:var(--wisma-soft);color:var(--wisma)} .s-umrah{background:var(--umrah-soft);color:var(--umrah-text)}
+.ico{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;flex:none}
+.ico svg{width:24px;height:24px}
+.ico.sm{width:36px;height:36px;border-radius:11px}
+.ico.sm svg{width:19px;height:19px}
 
-/* unit rows */
-.unit{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 0;border-top:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left}
+/* unit tiles */
+.unit{display:flex;align-items:center;gap:12px;padding:14px 0;border:0;border-top:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer}
 .unit:first-of-type{border-top:0}
-.unit .name{font-weight:700}
-.unit .saldo{font-weight:800;text-align:right}
-.unit .sub{font-size:.8rem;color:var(--muted)}
+.unit .mid{flex:1;min-width:0}
+.unit .name{font-weight:800;display:block}
+.unit .sub{font-size:.84rem;color:var(--muted);display:block}
+.unit .saldo{font-weight:800;text-align:right;font-size:1.05rem}
+.unit .saldo small{display:block;font-size:.75rem;color:var(--muted);font-weight:600}
+.unit .chev{color:var(--muted);font-size:1.3rem}
 
 /* insights */
-.insight{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.insight{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line);align-items:flex-start}
 .insight:first-of-type{border-top:0}
-.insight .bar{width:4px;border-radius:4px;flex:none}
 
 /* ask */
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.chip{border:1px solid var(--line);background:var(--paper);padding:7px 12px;border-radius:99px;font-size:.82rem;cursor:pointer;text-align:left}
-.chip[aria-pressed=true]{background:var(--green);color:#fff;border-color:var(--green)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{border:1.5px solid var(--line);background:var(--card);padding:9px 14px;border-radius:99px;font-size:.88rem;font-weight:600;cursor:pointer;text-align:left}
+.chip[aria-pressed=true]{background:var(--brand);color:#fff;border-color:var(--brand)}
 .ask-row{display:flex;gap:8px}
-.ask-row input{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--paper)}
-.btn{border:0;background:var(--green);color:#fff;font-weight:700;padding:11px 16px;border-radius:12px;cursor:pointer}
-.btn.ghost{background:var(--green-soft);color:var(--green)}
+.ask-row input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--bg)}
+.btn{border:0;background:var(--brand);color:#fff;font-weight:800;padding:12px 18px;border-radius:14px;cursor:pointer}
 .chat{margin-top:12px;display:flex;flex-direction:column;gap:8px}
-.msg{padding:10px 12px;border-radius:14px;max-width:92%;font-size:.92rem}
-.msg.q{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:4px}
-.msg.a{align-self:flex-start;background:var(--green-soft);border-bottom-left-radius:4px}
-.msg.a small{display:block;margin-top:6px;color:var(--muted);font-size:.72rem}
+.msg{padding:11px 14px;border-radius:18px;max-width:92%;font-size:.95rem}
+.msg.q{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:6px}
+.msg.a{align-self:flex-start;background:var(--brand-soft);border-bottom-left-radius:6px}
+.msg.a small{display:block;margin-top:6px;color:var(--muted);font-size:.74rem}
 
 /* stats */
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
-.stat .v{font-size:1.25rem;font-weight:800}
-.stat .k{font-size:.8rem;color:var(--muted)}
-.unit-head{display:flex;align-items:center;gap:10px}
-.unit-head .sw{width:14px;height:36px;border-radius:5px}
+.stat{background:var(--card);border-radius:18px;padding:14px;box-shadow:0 1px 2px rgba(20,26,46,.05),0 6px 18px rgba(20,26,46,.05)}
+.stat .v{font-size:1.35rem;font-weight:800;margin:2px 0 4px}
+.stat .k{font-size:.85rem;color:var(--muted);font-weight:600}
+.unit-head{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:22px;padding:14px 16px;box-shadow:0 1px 2px rgba(20,26,46,.05),0 6px 18px rgba(20,26,46,.05)}
 
-/* bars list */
-.hbar{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:.88rem;margin-top:10px}
-.hbar .track{grid-column:1/-1;height:8px;background:var(--paper);border-radius:99px;overflow:hidden}
+.hbar{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:.92rem;margin-top:12px}
+.hbar .track{grid-column:1/-1;height:10px;background:var(--bg);border-radius:99px;overflow:hidden}
 .hbar .fill{height:100%;border-radius:99px}
 
-svg.chart{width:100%;height:auto;display:block;margin-top:8px}
+svg.chart{width:100%;height:auto;display:block;margin-top:10px}
 svg.chart text{font-size:10px;fill:var(--muted);font-family:inherit}
 
-/* room grid */
 .rooms{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
-.rooms table{border-collapse:separate;border-spacing:3px;font-size:.72rem}
+.rooms table{border-collapse:separate;border-spacing:4px;font-size:.74rem}
 .rooms th{font-weight:600;color:var(--muted);padding:0 2px;white-space:nowrap}
-.rooms th.rn{text-align:left;padding-right:6px}
-.rooms td{width:26px;height:26px;border-radius:5px;background:var(--paper);border:1px solid var(--line)}
-.rooms td.b{background:var(--wisma);border-color:var(--wisma)}
-.rooms th.today{color:var(--wisma)}
+.rooms th.rn{text-align:left;padding-right:6px;color:var(--ink)}
+.rooms td{width:28px;height:28px;border-radius:8px;background:var(--bg)}
+.rooms td.b{background:var(--wisma)}
+.rooms th.today{color:var(--wisma);font-weight:800}
+.key{display:flex;gap:14px;font-size:.84rem;color:var(--muted);margin-top:4px}
+.key i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
 
-/* jamaah */
-.paket{padding:12px 0;border-top:1px solid var(--line)}
+.paket{padding:14px 0;border-top:1px solid var(--line)}
 .paket:first-of-type{border-top:0}
-.jm{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 0;border-top:1px solid var(--line)}
-.jm .track{grid-column:1/-1;height:6px;background:var(--paper);border-radius:99px;overflow:hidden;margin-top:4px}
-.jm .fill{height:100%;background:var(--umrah)}
-.tag{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:99px}
-.tag.ok{background:#DDF1E5;color:var(--good)} .tag.no{background:#F7E7D0;color:var(--umrah-text)}
-.linkbtn{border:0;background:none;color:var(--green);font-weight:700;font-size:.8rem;padding:4px 0;cursor:pointer;text-align:left}
+.jm{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:12px 0;border-top:1px solid var(--line)}
+.jm .track{grid-column:1/-1;height:8px;background:var(--bg);border-radius:99px;overflow:hidden;margin-top:6px}
+.jm .fill{height:100%;background:var(--umrah);border-radius:99px}
+.tag{font-size:.76rem;font-weight:800;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.tag.ok{background:var(--good-soft);color:var(--good)} .tag.no{background:var(--umrah-soft);color:var(--umrah-text)}
+.linkbtn{border:0;background:#E3F6E8;color:var(--good);font-weight:800;font-size:.8rem;padding:6px 10px;border-radius:99px;margin-top:6px;cursor:pointer}
 
-/* form */
-form label{display:block;font-weight:600;font-size:.88rem;margin:12px 0 5px}
-form input,form select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--paper)}
+form label{display:block;font-weight:700;font-size:.92rem;margin:14px 0 6px}
+form input,form select{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;background:var(--bg)}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.seg label{margin:0;border:1px solid var(--line);border-radius:12px;padding:11px;text-align:center;cursor:pointer;background:var(--paper)}
+.seg label{margin:0;border:1.5px solid var(--line);border-radius:14px;padding:13px;text-align:center;cursor:pointer;background:var(--bg)}
 .seg input{position:absolute;opacity:0;width:1px;height:1px}
-.seg label:has(input:checked){background:var(--green);color:#fff;border-color:var(--green)}
-.seg label:has(input:focus-visible){outline:3px solid var(--green);outline-offset:2px}
-.tx{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:.88rem}
-.tx .amt{font-weight:700;text-align:right}
+.seg label:has(input[value=keluar]:checked){background:var(--bad);color:#fff;border-color:var(--bad)}
+.seg label:has(input[value=masuk]:checked){background:var(--good);color:#fff;border-color:var(--good)}
+.seg label:has(input:focus-visible){outline:3px solid var(--brand);outline-offset:2px}
+.tx{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:.92rem}
+.card h3+.tx,.card h2+div>.tx:first-child{border-top:0}
+.tx .amt{font-weight:800;text-align:right;color:var(--good)}
 .tx .amt.out{color:var(--bad)}
-.card h3+.tx{border-top:0}
-.tx .new{font-size:.7rem;color:var(--green);font-weight:700}
+.tx .new{font-size:.7rem;color:#fff;background:var(--brand);padding:1px 7px;border-radius:99px;font-weight:700}
 
-.note{font-size:.8rem;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:10px 12px}
-.toast{position:fixed;left:50%;bottom:86px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:.88rem;opacity:0;pointer-events:none;transition:.25s;z-index:9;max-width:90vw}
+.note{font-size:.84rem;color:var(--muted);background:#FFF8DB;border-radius:16px;padding:12px 14px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-size:.92rem;opacity:0;pointer-events:none;transition:.25s;z-index:9;max-width:90vw}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
 @media (min-width:860px){
-  .app{grid-template-columns:220px 1fr;grid-template-rows:auto 1fr}
-  .top{grid-column:1/-1;padding:18px 28px}
-  .top-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
-  .period{margin-top:0;width:340px}
-  nav.tabs{position:sticky;top:0;align-self:start;grid-template-columns:1fr;border-top:0;background:none;padding:20px 12px;gap:4px}
-  nav.tabs button{flex-direction:row;gap:10px;font-size:.92rem;padding:8px;border-radius:12px}
-  nav.tabs button[aria-current=page]{background:var(--green-soft)}
-  nav.tabs button[aria-current=page] .ic{background:none}
-  nav.tabs .ic{width:28px}
-  main{padding:20px 28px 40px;margin:0}
+  .app{grid-template-columns:230px 1fr;grid-template-rows:auto 1fr}
+  .top{grid-column:1/-1;padding:22px 32px 70px}
+  .top-inner{max-width:1230px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+  .period{margin-top:0;width:360px}
+  nav.tabs{position:sticky;top:0;align-self:start;grid-template-columns:1fr;border:0;background:none;box-shadow:none;padding:0 12px;gap:6px;margin-top:18px}
+  nav.tabs button{flex-direction:row;gap:10px;font-size:.98rem;padding:8px;border-radius:16px;background:var(--card);box-shadow:0 1px 2px rgba(20,26,46,.05)}
+  nav.tabs button[aria-current=page]{background:var(--brand);color:#fff}
+  nav.tabs button[aria-current=page] .ic{background:rgba(255,255,255,.18)}
+  nav.tabs .ic{width:36px}
+  main{padding:0 32px 40px;margin:-48px 0 0}
   .cols{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
   .cols>*+*{margin-top:0}
   .stats{grid-template-columns:repeat(4,1fr)}
@@ -174,8 +187,9 @@ form input,form select{width:100%;border:1px solid var(--line);border-radius:12p
           <div>
             <p class="hello">Assalamualaikum,</p>
             <h1 class="who">Bang Khairil</h1>
+            <p class="today">Selasa, 24 November 2026</p>
           </div>
-          <span class="demo-badge">Demo · data contoh</span>
+          <span class="demo-badge">Contoh tampilan</span>
         </div>
       </div>
       <div class="period" role="group" aria-label="Periode">
@@ -203,13 +217,13 @@ form input,form select{width:100%;border:1px solid var(--line);border-radius:12p
         </div>
         <div class="stack">
           <div class="card">
-            <h2>Catatan asisten</h2>
-            <p class="small muted">Dibaca otomatis dari data ketiga usaha.</p>
+            <h2>Info penting</h2>
+            <p class="sub-h">Hal penting yang perlu Abang tahu hari ini.</p>
             <div id="insights" style="margin-top:6px"></div>
           </div>
           <div class="card">
             <h2>Tanya asisten</h2>
-            <p class="small muted">Tanya soal usaha Abang pakai bahasa sehari-hari.</p>
+            <p class="sub-h">Ketuk salah satu pertanyaan, atau ketik sendiri.</p>
             <div class="chips" id="askChips"></div>
             <form class="ask-row" id="askForm">
               <input id="askInput" placeholder="Contoh: berapa untung warkop minggu ini?" aria-label="Pertanyaan">
@@ -229,7 +243,7 @@ form input,form select{width:100%;border:1px solid var(--line);border-radius:12p
       <div class="cols">
         <form class="card" id="txForm">
           <h2>Catat transaksi</h2>
-          <p class="small muted">Untuk uang yang tidak tercatat di aplikasi kasir.</p>
+          <p class="sub-h">Untuk uang yang tidak tercatat di aplikasi kasir.</p>
           <label for="fUnit">Usaha</label>
           <select id="fUnit">
             <option value="warkop">Warung kopi</option>
@@ -255,7 +269,7 @@ form input,form select{width:100%;border:1px solid var(--line);border-radius:12p
         </div>
       </div>
     </section>
-    <p class="note" style="margin-top:18px">Ini demo dengan data contoh, bukan data usaha asli. Di versi jadi, data penjualan warkop diambil langsung dari aplikasi kasir dan spreadsheet Abang, jadi tidak perlu dicatat dua kali.</p>
+    <p class="note" style="margin-top:18px"><b>Ini contoh tampilan.</b> Semua angka dan nama di sini contoh, bukan data usaha asli. Di versi jadi, data penjualan warkop diambil langsung dari aplikasi kasir dan spreadsheet Abang, jadi tidak perlu dicatat dua kali.</p>
   </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -345,11 +359,11 @@ function range(p,prev){ // [startKey,endKey]
   return[key(new Date(2026,9,1)),key(new Date(2026,9,TODAY.getDate()))];
 }
 const PNAME={hari:'hari ini',minggu:'7 hari terakhir',bulan:'bulan ini'};
-const PCMP={hari:'kemarin',minggu:'7 hari sebelumnya',bulan:'periode sama bulan lalu'};
+const PCMP={hari:'kemarin',minggu:'minggu sebelumnya',bulan:'bulan lalu'};
 function sum(u,t,[s,e]){return ALL().filter(x=>(!u||x.u===u)&&(!t||x.t===t)&&x.d>=s&&x.d<=e).reduce((a,x)=>a+x.a,0)}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function deltaHTML(now,before){if(!before)return'';const p=(now-before)/Math.abs(before)*100;const up=p>=0;
-  return `<span class="delta ${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(p).toFixed(0)}% dibanding ${PCMP[PERIOD]}</span>`}
+  return `<span class="delta ${up?'up':'down'}">${up?'▲ Naik':'▼ Turun'} ${Math.abs(p).toFixed(0)}% dari ${PCMP[PERIOD]}</span>`}
 function barChart(vals,labels,color,fmt){
   const W=320,H=120,pad=18,bw=(W)/vals.length,max=Math.max(...vals)||1;
   let s=`<svg class="chart" viewBox="0 0 ${W} ${H+pad}" role="img" aria-label="Grafik">`;
@@ -360,25 +374,35 @@ function barChart(vals,labels,color,fmt){
 function occRate([s,e]){let tot=0,b=0;for(let d=parse(s);d<=parse(e);d=addDays(d,1)){const k=key(d);ROOMS.forEach((r,i)=>{tot++;if(BOOK[i][k])b++})}return tot?b/tot:0}
 
 /* ---------- render ---------- */
+const ICON={warkop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"/></svg>',
+ wisma:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 19V7M3 13h18v6M21 19v-4a3 3 0 0 0-3-3h-7v1M7 11.5a1.5 1.5 0 1 0 0-.01"/></svg>',
+ umrah:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 21V9l8-5 8 5v12M4 21h16M9 21v-6h6v6M4 9h16"/></svg>'};
+const ico=(u,sm)=>`<span class="ico ${sm?'sm ':''}s-${u}" aria-hidden="true">${ICON[u]}</span>`;
 function renderRingkasan(){
   const r=range(PERIOD),pr=range(PERIOD,true);
   const masuk=sum(null,'masuk',r),keluar=sum(null,'keluar',r),net=masuk-keluar;
   const netPrev=sum(null,'masuk',pr)-sum(null,'keluar',pr);
   const per=Object.keys(UNITS).map(u=>({u,m:sum(u,'masuk',r),k:sum(u,'keluar',r)}));
   document.getElementById('hero').innerHTML=`
-    <p class="label">Saldo bersih ${PNAME[PERIOD]} · uang masuk dikurangi uang keluar</p>
-    <p class="big num" style="color:${net<0?'var(--bad)':'var(--ink)'}">${rp(net)}</p>
+    <p class="label">Sisa uang ${PNAME[PERIOD]}</p>
+    <p class="big num" style="color:${net<0?'var(--bad)':'var(--ink)'}">${rpk(net)}</p>
     ${deltaHTML(net,netPrev)}
+    <div class="io">
+      <div class="in"><span>Uang masuk</span><b class="num">${rpk(masuk)}</b></div>
+      <div class="out"><span>Uang keluar</span><b class="num">${rpk(keluar)}</b></div>
+    </div>
+    <p class="split-h">Uang masuk dari mana?</p>
     <div class="split" role="img" aria-label="Pembagian uang masuk per usaha">
       ${per.map(x=>`<span style="flex-grow:${x.m||0.0001};background:${UNITS[x.u].c}"></span>`).join('')}
     </div>
-    <p class="small muted" style="margin-bottom:8px">Asal uang masuk (${rpk(masuk)})</p>
     <div class="legend">${per.map(x=>`<div><span class="dot c-${x.u}"></span>${UNITS[x.u].nama}<b class="num">${masuk?Math.round(x.m/masuk*100):0}%</b></div>`).join('')}</div>`;
-  document.getElementById('units').innerHTML=`<h2>Per usaha</h2>`+per.map(x=>`
+  document.getElementById('units').innerHTML=`<h2>Usaha Abang</h2><p class="sub-h">Ketuk untuk lihat rinciannya</p>`+per.map(x=>`
     <button class="unit" data-go="${x.u}">
-      <span class="name"><span class="dot c-${x.u}"></span>${UNITS[x.u].nama}</span>
-      <span class="saldo num" style="color:${x.m-x.k<0?'var(--bad)':'var(--ink)'}">${rpk(x.m-x.k)}</span>
-      <span class="sub num">Masuk ${rpk(x.m)} · Keluar ${rpk(x.k)}${x.u==='umrah'?'<br>Sebagian besar masih uang titipan jamaah untuk tiket & hotel':''}</span><span class="sub">Lihat ›</span>
+      ${ico(x.u)}
+      <span class="mid"><span class="name">${UNITS[x.u].nama}</span>
+      <span class="sub num">Masuk ${rpk(x.m)}</span><span class="sub num">Keluar ${rpk(x.k)}</span>${x.u==='umrah'?'<span class="sub">Sebagian besar uang titipan jamaah untuk tiket & hotel</span>':''}</span>
+      <span class="saldo num" style="color:${x.m-x.k<0?'var(--bad)':'var(--ink)'}"><small>Sisa</small>${rpk(x.m-x.k)}</span>
+      <span class="chev" aria-hidden="true">›</span>
     </button>`).join('');
   document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
   renderInsights();
@@ -400,7 +424,7 @@ function renderInsights(){
   const ratio=x=>{const m=sum('warkop','masuk',x);const b=ALL().filter(t=>t.u==='warkop'&&t.n==='Belanja bahan'&&t.d>=x[0]&&t.d<=x[1]).reduce((a,t)=>a+t.a,0);return m?b/m:0};
   const a=ratio(r),b=ratio(pr);
   ins.push(['warkop',`Belanja bahan warkop bulan ini <b>${Math.round(a*100)}%</b> dari penjualan (bulan lalu ${Math.round(b*100)}%). ${a>b?'Sedikit naik, coba cek harga gula dan kopi.':'Masih terkendali.'}`]);
-  document.getElementById('insights').innerHTML=ins.map(([u,t])=>`<div class="insight"><span class="bar c-${u}"></span><p class="small">${t}</p></div>`).join('');
+  document.getElementById('insights').innerHTML=ins.map(([u,t])=>`<div class="insight">${ico(u,1)}<p>${t}</p></div>`).join('');
 }
 
 function renderWarkop(){
@@ -412,12 +436,12 @@ function renderWarkop(){
   const order=MENU.map((x,i)=>({n:x[0],q:qty[i],v:qty[i]*x[1]})).sort((a,b)=>b.v-a.v);
   const last30=DAYS.slice(-30);
   document.getElementById('t-warkop').innerHTML=`<div class="stack">
-    <div class="unit-head"><span class="sw c-warkop"></span><div><h2>Warung kopi</h2><p class="small muted">${PNAME[PERIOD]} · data dari aplikasi kasir</p></div></div>
+    <div class="unit-head">${ico('warkop')}<div><h2>Warung kopi</h2><p class="sub-h">${PNAME[PERIOD]} · data dari aplikasi kasir</p></div></div>
     <div class="stats">
       <div class="stat"><div class="k">Penjualan</div><div class="v num">${rpk(m)}</div>${deltaHTML(m,sum('warkop','masuk',pr))}</div>
-      <div class="stat"><div class="k">Pengeluaran</div><div class="v num">${rpk(k)}</div></div>
-      <div class="stat"><div class="k">Saldo bersih</div><div class="v num">${rpk(m-k)}</div></div>
-      <div class="stat"><div class="k">Gelas minuman</div><div class="v num">${cups.toLocaleString('id-ID')}</div></div>
+      <div class="stat"><div class="k">Uang keluar</div><div class="v num">${rpk(k)}</div></div>
+      <div class="stat"><div class="k">Sisa uang</div><div class="v num">${rpk(m-k)}</div></div>
+      <div class="stat"><div class="k">Gelas minuman terjual</div><div class="v num">${cups.toLocaleString('id-ID')}</div></div>
     </div>
     <div class="cols">
       <div class="card"><h3>Penjualan harian, 30 hari terakhir</h3>${barChart(last30.map(d=>sum('warkop','masuk',[d,d])),last30.map(tgl),'var(--kopi)',rpk)}</div>
@@ -435,14 +459,14 @@ function renderWisma(){
   const kosong=ROOMS.filter((x,i)=>!BOOK[i][TK]);
   const tamu=ROOMS.map((x,i)=>({room:x.n,g:BOOK[i][TK],baru:BOOK[i][TK]&&BOOK[i][TK]!==BOOK[i][key(addDays(TODAY,-1))]})).filter(x=>x.g);
   document.getElementById('t-wisma').innerHTML=`<div class="stack">
-    <div class="unit-head"><span class="sw c-wisma"></span><div><h2>Wisma</h2><p class="small muted">${PNAME[PERIOD]} · ${ROOMS.length} kamar (contoh)</p></div></div>
+    <div class="unit-head">${ico('wisma')}<div><h2>Wisma</h2><p class="sub-h">${PNAME[PERIOD]} · ${ROOMS.length} kamar (contoh)</p></div></div>
     <div class="stats">
-      <div class="stat"><div class="k">Pendapatan</div><div class="v num">${rpk(m)}</div>${deltaHTML(m,sum('wisma','masuk',pr))}</div>
-      <div class="stat"><div class="k">Tingkat hunian</div><div class="v num">${Math.round(occ*100)}%</div></div>
-      <div class="stat"><div class="k">Saldo bersih</div><div class="v num">${rpk(m-k)}</div></div>
+      <div class="stat"><div class="k">Uang masuk</div><div class="v num">${rpk(m)}</div>${deltaHTML(m,sum('wisma','masuk',pr))}</div>
+      <div class="stat"><div class="k">Kamar terisi</div><div class="v num">${Math.round(occ*100)}%</div></div>
+      <div class="stat"><div class="k">Sisa uang</div><div class="v num">${rpk(m-k)}</div></div>
       <div class="stat"><div class="k">Kamar kosong malam ini</div><div class="v num">${kosong.length}</div></div>
     </div>
-    <div class="card"><h3>Jadwal kamar 14 hari ke depan</h3><p class="small muted">Kotak biru = sudah dipesan. Geser ke samping di HP.</p>
+    <div class="card"><h3>Jadwal kamar 14 hari ke depan</h3><div class="key"><span><i class="c-wisma"></i>Sudah dipesan</span><span><i style="background:var(--bg)"></i>Kosong</span></div><p class="small muted">Geser tabel ke samping untuk lihat tanggal lain.</p>
       <div class="rooms"><table><thead><tr><th></th>${grid.map((d,i)=>`<th class="${i===0?'today':''}">${i===0?'Hari ini':d.getDate()}<br>${HARI[d.getDay()].slice(0,3)}</th>`).join('')}</tr></thead>
       <tbody>${ROOMS.map((x,i)=>`<tr><th class="rn">${x.n}</th>${grid.map(d=>{const g=BOOK[i][key(d)];return `<td class="${g?'b':''}" title="${g?esc(x.n+': '+g):x.n+': kosong'}"></td>`}).join('')}</tr>`).join('')}</tbody></table></div>
     </div>
@@ -458,12 +482,12 @@ function renderUmrah(){
   const bl=JAMAAH.filter(j=>j.paid<j.harga);
   const list=JAMAAH.filter(j=>JFILTER==='semua'||(JFILTER==='belum'?j.paid<j.harga:j.paid>=j.harga)).sort((a,b)=>a.paid/a.harga-b.paid/b.harga);
   document.getElementById('t-umrah').innerHTML=`<div class="stack">
-    <div class="unit-head"><span class="sw c-umrah"></span><div><h2>Travel umrah</h2><p class="small muted">${PNAME[PERIOD]} · paket dan harga contoh</p></div></div>
+    <div class="unit-head">${ico('umrah')}<div><h2>Travel umrah</h2><p class="sub-h">${PNAME[PERIOD]} · paket dan harga contoh</p></div></div>
     <div class="stats">
-      <div class="stat"><div class="k">Pembayaran jamaah</div><div class="v num">${rpk(m)}</div></div>
+      <div class="stat"><div class="k">Uang dari jamaah</div><div class="v num">${rpk(m)}</div></div>
       <div class="stat"><div class="k">Bayar ke maskapai/hotel</div><div class="v num">${rpk(k)}</div></div>
       <div class="stat"><div class="k">Jamaah terdaftar</div><div class="v num">${JAMAAH.length}</div></div>
-      <div class="stat"><div class="k">Sisa tagihan</div><div class="v num">${rpk(bl.reduce((a,j)=>a+j.harga-j.paid,0))}</div></div>
+      <div class="stat"><div class="k">Belum dibayar jamaah</div><div class="v num">${rpk(bl.reduce((a,j)=>a+j.harga-j.paid,0))}</div></div>
     </div>
     <div class="cols">
       <div class="card"><h3>Paket</h3>${PAKET.map(p=>{const js=JAMAAH.filter(j=>j.paket===p.id);const paid=js.reduce((a,j)=>a+j.paid,0);return `
@@ -475,7 +499,7 @@ function renderUmrah(){
         <div class="chips" role="group" aria-label="Saring jamaah">${[['belum','Belum lunas ('+bl.length+')'],['lunas','Lunas'],['semua','Semua']].map(([v,l])=>`<button class="chip" data-jf="${v}" aria-pressed="${JFILTER===v}">${l}</button>`).join('')}</div>
         ${list.map(j=>{const p=PAKET.find(x=>x.id===j.paket);const ok=j.paid>=j.harga;return `<div class="jm">
           <span><b>${esc(j.nama)}</b><br><span class="small muted">${p.nama}</span></span>
-          <span style="text-align:right"><span class="tag ${ok?'ok':'no'}">${ok?'Lunas':'Sisa '+rpk(j.harga-j.paid)}</span><br>${ok?'':`<button class="linkbtn" data-wa="${esc(j.nama)}" data-sisa="${j.harga-j.paid}">Ingatkan via WA</button>`}</span>
+          <span style="text-align:right"><span class="tag ${ok?'ok':'no'}">${ok?'Lunas':'Sisa '+rpk(j.harga-j.paid)}</span><br>${ok?'':`<button class="linkbtn" data-wa="${esc(j.nama)}" data-sisa="${j.harga-j.paid}">Ingatkan lewat WA</button>`}</span>
           <div class="track"><div class="fill" style="width:${Math.min(100,j.paid/j.harga*100)}%"></div></div></div>`}).join('')}
       </div>
     </div></div>`;
